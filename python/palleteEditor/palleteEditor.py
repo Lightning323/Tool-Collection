@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
-
+import colorsys
 class GPLPaletteManager:
     def __init__(self, root):
         self.root = root
@@ -38,7 +38,8 @@ class GPLPaletteManager:
         tk.Button(btn_frame, text="Append GPL", command=self.combine_gpl).grid(row=0, column=1, padx=5)
         tk.Button(btn_frame, text="Import Hex File (.txt)", command=self.import_hex_file).grid(row=0, column=2, padx=5)
         tk.Button(btn_frame, text="Export GPL", command=self.export_gpl).grid(row=0, column=3, padx=5)
-        tk.Button(btn_frame, text="Clear Palette", command=self.clear_palette).grid(row=0, column=4, padx=5)
+        tk.Button(btn_frame, text="Sort Palette", command=self.sort_palette).grid(row=0, column=4, padx=5)
+        tk.Button(btn_frame, text="Clear Palette", command=self.clear_palette).grid(row=0, column=5, padx=5)
 
     def on_frame_configure(self, event):
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
@@ -91,6 +92,27 @@ class GPLPaletteManager:
                     seen.add(c)
             print(f"Final palette (unique colors only) has {len(self.palette)} colors")
             self.draw_palette()
+
+    def sort_palette(self):
+        def rgb_to_hsv(color):
+            r, g, b = color
+            # Normalize RGB to 0–1
+            return colorsys.rgb_to_hsv(r/255, g/255, b/255)
+        colored = []
+ 
+
+        for c in self.palette:
+            h, s, v = rgb_to_hsv(c)
+            colored.append((c, h, s, v))  # keep hue & value for sorting
+
+        # Sort colored by hue, then value (dark → light)
+        colored.sort(key=lambda x: (x[1], x[3], x[2]))
+
+        # Combine back: colored first, then grays (or flip if you want grays first)
+        self.palette = [c[0] for c in colored]
+
+        self.draw_palette()
+
 
     def import_hex_file(self):
         file_path = filedialog.askopenfilename(filetypes=[("Text Files", "*.txt")])
