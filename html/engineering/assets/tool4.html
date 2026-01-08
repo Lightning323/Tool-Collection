@@ -1,0 +1,170 @@
+<link rel="stylesheet" href="tools.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<div style="width: 95%;">
+    <h2 style="font-size: 1.4em;padding: 2px 0;">Gear Train Calculator</h2>
+    <div style="text-align: center;width:100%;">
+        <img style="width: 40%;" src="./img1.png" />
+    </div>
+    <br>
+    <div id="gInfo" class="bx" style="border:1px solid blue;">
+        <h3>Gear Information</h3>
+        Gear A teeth: <input type="number" style="color:blue;" class="1" value="12" placeholder="Gear A teeth">
+        <br>Gear B teeth: <input type="number" style="color:blue;" class="2" value="16" placeholder="Gear B teeth">
+        <div style="margin-top:10px;"></div>
+        <button onclick="apply()">APPLY</button>
+        <div style="margin-top:10px;"></div>
+    </div>
+    <div id="gRatio" class="bx">
+        <h3>Gear Ratio</h3>
+        Gear A teeth: <input type="number" style="color:blue;" class="1" placeholder="Gear A teeth">
+        <br>Gear B teeth: <input type="number" style="color:blue;" class="2" placeholder="Gear B teeth">
+        <div style="margin-top:10px;"></div>
+        Gear ratio:
+        <div class="output">--</div>
+        <div style="margin-top:20px;"></div>
+        <button onclick="gRatio_convert()">CONVERT</button>
+        <div style="margin-top:10px;"></div>
+    </div>
+    <div id="gSpeed" class="bx">
+        <h3>Gear B Speed</h3>
+        <br> <span class="small">Gear A speed:</span> <input type="number" class="1" placeholder="Gear A speed">
+        <br> Gear A teeth: <input type="number" style="color:blue;" class="2" placeholder="Gear A teeth">
+        <br> Gear B teeth: <input type="number" style="color:blue;" class="3" placeholder="Gear B teeth">
+        <div style="margin-top:10px;"></div>
+        Gear B speed:
+        <div class="output">--</div>
+        <div style="margin-top:20px;"></div>
+        <button onclick="gSpeed_convert()">CONVERT</button>
+        <div style="margin-top:10px;"></div>
+    </div>
+    <div id="gTorqueME" class="bx">
+        <h3>Gear B Torque</h3>
+        <p class="small" style="color: grey;">This foumula times your real torque by the ouput(1 input) to get the result.</p>
+        <span class="small">Machine efficency (0-1):</span>
+
+        <input type="number" class="n" value=".985" style="width: 40%;" placeholder="0-99.9%"><br>
+
+        <span class="">Gear A Tourque:</span>
+        <input type="number" style="color:red;width: 41%;" class="Ta" value="1" placeholder="Gear A torque">
+
+        <br> Gear A Teeth (mm): <input type="number" style="color:blue;width: 41%;" class="Za" placeholder="Gear A teeth">
+
+        <br> Gear B Teeth (mm): <input type="number" style="color:blue;width: 41%;" class="Zb" placeholder="Gear B teeth"><br> Gear B Torque:
+        <div class="output">--</div>
+        <div style="margin-top:20px;"></div>
+        <button onclick="gTorqueME_convert()">CONVERT</button>
+        <div style="margin-top:10px;"></div>
+    </div>
+    <div id="gRot" class="bx">
+        <h3>Gear A Rotation</h3>
+        <br> <span class="small">Gear B rotation:</span> <input type="number" style="color:green;" class="Rb" placeholder="Gear B rotation">
+        <br> Gear ratio : <input type="number" class="r" placeholder="Gear ratio"><br> Gear A rotation:
+        <div class="output">--</div>
+        <div style="margin-top:20px;"></div>
+        <button onclick="gRot_convert()">CONVERT</button>
+        <div style="margin-top:10px;"></div>
+    </div>
+    <div id="gRot2" class="bx">
+        <h3>Gear B Rotation</h3>
+        <br> <span class="small">Gear A rotation:</span> <input type="number" style="color:green;" class="Rb" placeholder="Gear A rotation">
+        <br> Gear ratio : <input type="number" class="r" placeholder="Gear ratio"><br> Gear B rotation:
+        <div class="output">--</div>
+        <div style="margin-top:20px;"></div>
+        <button onclick="gRot2_convert()">CONVERT</button>
+        <div style="margin-top:10px;"></div>
+    </div>
+</div>
+
+<style>
+
+</style>
+<script>
+    function apply() {
+
+        var Ta = ($("#gInfo .1").val() - 1) + 1;
+        var Tb = ($("#gInfo .2").val() - 1) + 1;
+
+        $('#gSpeed .2').val(Ta);
+        $('#gTorqueME .Za').val(Ta);
+
+        $('#gSpeed .3').val(Tb);
+        $('#gTorqueME .Zb').val(Tb);
+
+        $('#gRatio .1').val(Ta);
+        $('#gRatio .2').val(Tb);
+    }
+
+    function gRatio_convert() {
+        var at = ($("#gRatio .1").val() - 1) + 1;
+        var bt = ($("#gRatio .2").val() - 1) + 1;
+        var output = $("#gRatio .output");
+
+
+        output.html(rnd(bt / at));
+
+        $("#gRot .r").val(output.html());
+        $("#gRot2 .r").val(output.html());
+        // $("#gSpeed .r").val(output.html());
+    }
+
+    function gSpeed_convert() {
+        var Sa = ($("#gSpeed .1").val() - 1) + 1;
+        var Ta = ($("#gSpeed .2").val() - 1) + 1;
+        var Tb = ($("#gSpeed .3").val() - 1) + 1;
+        var output = $("#gSpeed .output");
+
+
+        output.html(rnd(
+            (Sa * Ta) / Tb
+        ));
+    }
+
+    // function gTorque_convert() {
+    //     var ta = ($("#gTorque .1").val() - 1) + 1;
+    //     var la = ($("#gTorque .2").val() - 1) + 1;
+    //     var lb = ($("#gTorque .3").val() - 1) + 1;
+    //     var output = $("#gTorque .output");
+
+    //     output.html(rnd(
+    //         (ta / la) * lb
+    //     ));
+    // }
+
+    function out(v, e) {
+        return e.html(Math.round(v * 1000000) / 1000000);
+    }
+
+    function gTorqueME_convert() {
+        var N = ($("#gTorqueME .n").val() - 1) + 1;
+        var Ta = ($("#gTorqueME .Ta").val() - 1) + 1;
+        var Za = ($("#gTorqueME .Za").val() - 1) + 1;
+        var Zb = ($("#gTorqueME .Zb").val() - 1) + 1;
+        var output = $("#gTorqueME .output");
+
+        var ret = (N * (Zb / Za) * 1) * Ta;
+        out(ret, output);
+    }
+
+    function gRot_convert() {
+        var r = ($("#gRot .r").val() - 1) + 1;
+        var Rb = ($("#gRot .Rb").val() - 1) + 1;
+        var output = $("#gRot .output");
+
+        var ret = Rb * r;
+        out(ret, output);
+    }
+
+    function gRot2_convert() {
+        var r = ($("#gRot2 .r").val() - 1) + 1;
+        var Rb = ($("#gRot2 .Rb").val() - 1) + 1;
+        var output = $("#gRot2 .output");
+
+        var ret = Rb / r;
+        out(ret, output);
+    }
+
+    function rnd(v) {
+        return Math.round(v * 1000000) / 1000000
+    }
+</script>

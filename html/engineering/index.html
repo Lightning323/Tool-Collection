@@ -1,0 +1,53 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="../style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://raw.githubusercontent.com/LexmarkWeb/csi.js/master/src/csi.js"></script>
+    <title>Multi Tool</title>
+</head>
+<body style="  max-width: 1680px;">
+    <div data-include="https://stackoverflow.com/questions/3928331/equivalent-of-include-in-html"></div>
+    <a href="../MultiTool.html">Multi Tool</a> > Engineering
+    <h1>Engineering Tools</h1>
+    <object type="text/html" data="assets/tool4.html" style="width: 100%;height: 550px;"></object>
+
+
+    <div style="padding: 7px; background-color: #bbb;margin-top:10px;border: 1px solid #aaa;margin-bottom:5px;">
+        <!-- <button onclick="$('#r1').toggle();">1</button> -->
+        <!-- <button onclick="$('#r2').toggle();">-</button> -->
+        <!-- <button onclick="$('#r2').toggle();$('#r3').toggle();">+</button> -->
+        <!-- $('#rpm').toggle(); -->
+        <button onclick="$('#r2').toggle();$('#r3').toggle();">TOGGLE RPM PANELs</button>
+        <i style="color: #888;margin:4px;margin-left:10px;float: right;">RPM Visualizer Toolbar</i>
+    </div>
+    <div style="display: inline-block;margin-top: 0;vertical-align: top!important;" id="rpm">
+        <object type="text/html" data="speed.html" style="height: 560px; width: 470px;vertical-align: top!important;" id="r1"></object>
+        <object type="text/html" data="speed.html" style="height: 560px;width: 470px;display: none;" id="r2"></object>
+        <object type="text/html" data="speed.html" style="height: 560px;width: 470px;display: none;" id="r3"></object>
+    </div>
+
+
+
+    <object type="text/html" data="assets/tool5.html" style="height: 700px;width: 450px;"></object>
+    <object type="text/html" data="assets/tool1.html" style="height: 400px;"></object>
+    <!-- <object type="text/html" data="assets/tool3.html" style="width:340px;height: 650px;"></object> -->
+
+
+
+
+
+    <br><br>
+    <div style="padding: 7px; background-color: #bbb;margin-top:10px;border: 1px solid #aaa;">
+        <button onclick="$('#1').css('width','100%');$('#2').hide();">+</button>
+        <button onclick="$('#1').css('width','49%');$('#2').show();">-</button>
+        <button onclick="$('#1').show();$('#1').css('width','100%');$('#2').hide();">SHOW WEB PANEL</button>
+        <button onclick="$('#1').hide();$('#2').hide();">HIDE WEB PANEL</button>
+        <i style="color: #888;margin:4px;margin-left:10px;float: right;">Web Panel Toolbar</i>
+    </div>
+    <object type="text/html" data="assets/tool3.html" style="width:100%;height: 920px;display: none;" id="1"></object>
+    <object type="text/html" data="assets/tool3.html" style="width:49%;height: 920px;display: none;" id="2"></object>
+
+</body>
+
+</html>

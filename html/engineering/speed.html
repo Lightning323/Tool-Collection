@@ -1,0 +1,234 @@
+<!--from https://jsfiddle.net/efxfreak/axhzk4pq/29/-->
+<script src="jquery.min.js"></script>
+<link rel="stylesheet" href="tools.css" /><style>
+    html{overflow-x: hidden;}
+    body {
+        font-family: arial;
+        /* background-color: black; */
+        /* color: grey; */
+        padding: 5px;
+        max-width: 600px;
+        margin: 0 auto;
+        font-size: 0.95em;
+    }
+
+    @keyframes wheel {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+
+    @keyframes slider {
+        0% {
+            width: 0px;
+            background-color:rgb(166, 57, 248);
+        }
+
+        100% {
+            width: 140px;
+            background-color:blue;
+        }
+    }
+
+    @keyframes bounce {
+        0% {
+            transform: rotate(-90deg);
+        }
+
+        50% {
+            transform: rotate(90deg);
+        }
+
+        100% {
+            transform: rotate(-90deg);
+        }
+    }
+
+    @keyframes bounce2 {
+        0% {
+            transform: rotate(-90deg);
+        }
+
+        100% {
+            transform: rotate(0deg);
+        }
+    }
+
+
+    #a {
+        background: red;
+        width: 10px;
+        height: 100px;
+        border-left: 70px solid transparent;
+        border-right: 70px solid transparent;
+        background-clip: content-box;
+        animation-iteration-count: infinite;
+        animation-name: wheel;
+        animation-timing-function: linear;
+        margin: 50px auto;
+    }
+
+    #b {
+        width: 10px;
+        height: 180px;
+        border-left: 70px solid transparent;
+        border-right: 70px solid transparent;
+        background-clip: content-box;
+        animation-iteration-count: infinite;
+        animation-name: bounce;
+        animation-timing-function: linear;
+        margin: 30px auto;
+    }
+
+    td:active>div>div {
+        /* opacity: 0; */
+        /*Pause the animation of the div*/
+        animation-play-state: paused;
+    }
+
+
+    input,button {
+        padding: 5px;
+        margin: 2px 0;
+    }
+
+    #timeSlider{
+        animation-name: slider;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        height:30px;background-color:blue;display: inline-block;border-radius: 2px;
+        /* animation-duration: 10s; */
+    }
+
+    #timeBounce{
+        width: 10px;
+        height: 180px;
+        border-left: 70px solid transparent;
+        border-right: 70px solid transparent;
+        background-clip: content-box;
+        animation-iteration-count: infinite;
+        animation-name: bounce2;
+        animation-timing-function: linear;
+        margin: 30px auto;
+    }
+</style>
+<head>
+    <title>RPM Visualizer (ACCURATE)</title>
+</head>
+<h2 style="font-size: 1.4em;padding: 2px 0;">RPM Visualization</h2>
+<table>
+    <tr>
+        <td>
+            
+            <div style="height: 200px; width: 220px;border: 1px solid grey;">
+                <div id="a"></div>
+            </div>
+            <button onclick="$('#a').toggle()">show/hide</button>
+        </td>
+        <td>
+           
+            <div style="height: 200px; width: 220px;border: 1px solid grey;">
+                <div id="b">
+                    <div style="background-color:blue;width:10px;height:90px;"></div>
+                </div>
+            </div>
+            <button onclick="$('#b').toggle()">show/hide</button>
+        </td>
+    </tr>
+</table>
+
+
+
+
+
+<p>Click on a section to pause it.</p>
+RPM SPEED: <input type="number" id="rpm" value="25" /><br>
+(Rotations per second: <span id="rps"></span>)
+
+<h4>Distance Calculator</h4>
+Amount of time it would take to travel from
+    <br><input type="number" placeholder="point A direction (0-360)" id="point-a" /> to
+    <br><input type="number" placeholder="point B direction (0-360)" id="point-b" /><br>
+    
+    <button onclick="rotationTimeCalculate()">Calculate</button>: <span id='rotationTimeResult'></span>
+
+    
+
+<h4>Time Calculator</h4>
+<input type="number" placeholder="Time (seconds)" id="time" onchange="playTimeAnimation()" value="0.5"/><br>
+<drv style="width: 140px;height:30px;background-color:#ddd;display: inline-block; margin: 5px 0;">
+    <drv id="timeSlider"></drv>
+</drv>
+
+<!-- <br><br><br><br><br><br>
+<div style="height: 200px; width: 220px;border: 1px solid grey;" >
+    <div id="timeBounce">
+        <div style="background-color:purple;width:10px;height:90px;"></div>
+    </div>
+</div> -->
+
+<br>
+<br>
+<script>
+    var $input = document.getElementById("rpm");
+    var $div1 = document.querySelector("#a");
+    var $div2 = document.querySelector("#b");
+
+
+
+    $input.addEventListener("change", onchange, false);
+
+    function onchange() {
+        var rpm = $input.value;
+        var duration = 60 / rpm;
+        $div1.style.animationDuration = duration + 's';
+        $div2.style.animationDuration = duration + 's';
+        console.log("Setting speed to " + rpm + " RPM");
+        $("#rps").html((rpm / 60).toFixed(3))
+    }
+
+    function rotationTimeCalculate(){
+        var pointA = $("#point-a").val();
+        var pointB = $("#point-b").val();
+        var result = $("#rotationTimeResult");
+        var rpm = $("#rpm").val();
+
+        if(pointA == "" || pointB == ""){
+            result.html("Please enter both points");
+            return;
+        }else if(pointA == pointB){
+            result.html("Please enter different points");
+            return;
+        }
+
+//Calculate the time it would take, given the RPM
+        var rps = 60 / rpm;
+
+        //calculate the distance between the two points
+        var distance = Math.abs(pointA - pointB);
+        distance = distance / 360;
+        console.log("Distance: " + distance+ " rotations");
+        console.log("RPS: " + rps);
+
+        var time = distance * rps;
+        result.html("Time: "+time.toFixed(3)+" seconds");
+        //Set $("#time").val() to the time
+        $("#time").val(time.toFixed(3));
+        playTimeAnimation();
+    }
+
+    function playTimeAnimation(){
+        var time = $("#time").val()
+        // alert(time);
+       //Play the animation
+        $("#timeSlider").css("animation-duration", time + "s");
+        // $("#timeBounce").css("animation-duration", time + "s");
+    }
+
+    onchange();
+</script>

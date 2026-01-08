@@ -1,0 +1,123 @@
+<link rel="stylesheet" href="tools.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<body style="margin-bottom: 0;">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <h2>Web Frame</h2>
+    <div class="box" style="width:100%;height:537px;border:none;margin: 0;">
+        <div style="height: 400px;overflow-y: auto;overflow-x: hidden;">
+            <ul>
+                <p><b>Basic Conversion</b></p>
+                <li><a onclick='setIframe("geargenerator.com/#120,120,60,6,1,3,777.300000000018,4,1,8,2,4,27,-90,0,0,0,0,0,0,16,4,4,27,-60,0,0,0,0,1,1,12,1,12,20,-60,0,0,0,0,2,0,60,5,12,20,0,1,0,0,0,0,0,3,-584")' target="_blank">Gear Calculator</a></li>
+                <li><a onclick='setIframe("www.unitconverters.net/weight-and-mass/ounces-to-pounds.htm")'>Oz-Lbs Conversion</a></li>
+                <li><a onclick='setIframe("www.unitconverters.net/length/cm-to-inches.htm")'>CM-IN conversion</a></li>
+                <a onclick='setHttpIframe("www.math.com/students/calculators/source/square-root.htm")'>Square root calculator</a>
+            </ul>
+            <ul>
+                <p><b>Angular Acceleration</b></p>
+                <li><a onclick='setIframe("www.convertunits.com/from/radians+per+second/to/RPM")'>R/S to R/M/S (RPM)</a></li>
+                <li><a onclick='setIframe("www.translatorscafe.com/unit-converter/en-US/acceleration-angular/1-4/radian%2fsecond%C2%B2-revolution%2fminute%2fsecond/")'>R/S<sup>2</sup> to R/M/S (RPM)</a></li>
+            </ul>
+            <ul>
+                <p><b>OzF-In to N/mm</b></p>
+                <li>
+                    <a onclick='setHttpIframe("www.endmemo.com/sconvert/n_mmozf_in.php")'>N/mm to OzF-In</a>
+                </li>
+                <li>
+                    <a onclick="setIframe('www.advancedconverter.com/unit-conversions/torque-conversion/newton-meter-to-ounce-inch')">N/mm to OzF-In</a>
+                </li>
+                <li>
+                    <a onclick="setHttpIframe('www.unitconversion.org/unit_converter/torque.html')">N/mm to OzF-In</a>
+                </li>
+                <li>
+                    <a href="https://physics.stackexchange.com/questions/596759/how-to-convert-between-rm-oz-rm-in-and-rm-n-mm" target="_blank">How to convert between Oz-In and N/mm? - Physics SE</a>
+                </li>
+            </ul>
+            <ul>
+                <p><b>Torque Conversions</b></p>
+                <li><a onclick='setIframe("www.convertunits.com/from/kg+cm/to/oz+in")'>convert kg-cm to oz-in</a></li>
+                <li><a onclick='setIframe("www.convertunits.com/from/lb-ft/to/oz-in")'>Convert pound foot to ounce inch</a></li>
+                <li><a onclick='setHttpIframe("nepsi.com/resources/calculators/motor-torque.htm")'>Torque Calculations</a></li>
+            </ul>
+            <br>
+            <br>
+        </div>
+        <div style="border: 1px solid grey;">
+            <input id="input" style="width: 100%;margin: 0;border-radius:0; border: 1px solid grey;display: inline;" type="url" value="https://geargenerator.com/" onchange='$("iframe").attr("src", this.value);' />
+            <a href="" onclick='window.open($("#input").val(), "_blank"); '><button style="    position: absolute;
+                right: 8px;
+                padding: 4px 14px;">Open URL</button></a>
+            <div class="wrap" style="height: 400px;">
+                <iframe class="frame" src="https://geargenerator.com/#120,120,60,6,1,3,777.300000000018,4,1,8,2,4,27,-90,0,0,0,0,0,0,16,4,4,27,-60,0,0,0,0,1,1,12,1,12,20,-60,0,0,0,0,2,0,60,5,12,20,0,1,0,0,0,0,0,3,-584"></iframe>
+            </div>
+        </div>
+    </div>
+</body>
+
+<style>
+    ul {
+        display: inline-block;
+        vertical-align: top;
+        width: 170px;
+        margin: 10px;
+    }
+    
+    ul li {
+        vertical-align: top;
+    }
+    
+    .wrap {
+        padding: 2px;
+        overflow: hidden;
+        background-color: grey;
+    }
+    
+    .wrap iframe {
+        width: 133%;
+        height: 133%;
+        background-color: #eee;
+    }
+    
+    .frame {
+        width: 1280px;
+        height: 786px;
+        border: 0;
+        -ms-transform: scale(0.75);
+        -moz-transform: scale(0.75);
+        -o-transform: scale(0.75);
+        -webkit-transform: scale(0.75);
+        transform: scale(0.75);
+        -ms-transform-origin: 0 0;
+        -moz-transform-origin: 0 0;
+        -o-transform-origin: 0 0;
+        -webkit-transform-origin: 0 0;
+        transform-origin: 0 0;
+    }
+    
+    a {
+        color: blue;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+    
+    a:hover {
+        color: darkblue;
+    }
+    
+    h2 {
+        background-color: #eeeeee;
+        text-align: center;
+    }
+</style>
+
+<script>
+    function setIframe(val) {
+        $("iframe").attr("src", "https://" + val);
+        $("#input").attr("value", "https://" + val);
+    }
+
+    function setHttpIframe(val) {
+        $("iframe").attr("src", "http://" + val);
+        $("#input").attr("value", "http://" + val);
+    }
+</script>

@@ -1,0 +1,135 @@
+<link rel="stylesheet" href="tools.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+
+<div style="width: 95%;">
+    <h2 style="font-size: 1.4em;padding: 2px 0;">Vertical (Z) Cylinder Torque Calculator</h2>
+    <div id="calc">
+        <h3>Cylinder</h3>
+        Weight (lbs): <input type="number" style="color:blue;" class="m" placeholder="cylynder weight"><br> radius (in): <input type="number" style="color:blue;" class="r" placeholder="cylynder radius">
+
+        <h3>Angular Acceleration</h3>
+        <p>Angular Acceleration is the acceleration you want to achieve within a specific time period</p>
+        <span class="small">Initial Angular Velocity (RPM): </span><input type="number" style="color:blue;" class="ia" placeholder="Initial Angular Velocity (RPM)"><br><span class="small">Final Angular Velocity (RPM):</span> <input type="number" style="color:blue;"
+            class="fa" placeholder="Final Angular Velocity (RPM)"><br><span class="small">Acceleration Time (Sec):</span> <input type="number" style="color:blue;" class="ta" placeholder="Acceleration Time (Sec)"><br>
+        <div style="margin-top:20px;border-bottom:1px solid #ccc;"></div>
+        <h3>Result Information</h3>
+        <button onclick="$('#ri').toggle();" style="position: relative; right:-170;top:-43px;background: white; border: none;color:grey;padding-right: 100px;"><i>Toggle</i></button>
+        <div id="ri" style="display: none;user-select: text;">
+            <table id="m" style="display: none;">
+                <tr>
+                    <td>Item</td>
+                    <td>Unit</td>
+                    <td>Value</td>
+                </tr>
+            </table>
+            <h4 class="formula" id="f1"></h4>
+            <h4 class="formula" id="f2"></h4>
+            <h4 class="formula" id="f3"></h4>
+            <h4 class="formula" id="f4"></h4>
+            <div style="margin-top:40px;"></div>
+        </div>
+        <div style="margin-top:-20px;border-bottom:1px solid #ccc;"></div>
+        <br>Required Torque (Ozf-In):
+        <div class="output">--</div>
+        <div style="margin-top:20px;"></div>
+        <button onclick="calc()">CONVERT</button>
+        <div style="margin-top:10px;"></div>
+    </div>
+</div>
+<style>
+    .formula {
+        font-family: cambria math, 'Times New Roman', Times, serif;
+        /* font-style: italic; */
+        font-size: 16px;
+        font-weight: 200;
+        margin-top: 0;
+        margin-bottom: 7.5px;
+    }
+    
+    .formula sup,
+    .formula sub {
+        font-family: cambria math, 'Times New Roman', Times, serif;
+    }
+    
+    table td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 2px 8px;
+    }
+    
+    table tr:first-child {
+        background-color: #ddd;
+    }
+    
+    table {
+        border: 1px solid black;
+        border-collapse: collapse;
+        margin-bottom: 10px;
+    }
+</style>
+<script>
+    function calc() {
+        var Cr = ($("#calc .r").val() - 1) + 1;
+        var Cm = ($("#calc .m").val() - 1) + 1;
+        var Ai = ($("#calc .ia").val() - 1) + 1;
+        var Af = ($("#calc .fa").val() - 1) + 1;
+        var At = ($("#calc .ta").val() - 1) + 1;
+        var pi = Math.PI;
+        console.log("pi: " + pi);
+        var A = Af - Ai / At;
+
+        $("#calc #m").show();
+        Cm *= 0.45359237;
+        Cr /= 39.370;
+
+        Af = (2 * pi / 60) * Af;
+        Ai = (2 * pi / 60) * Ai;
+        //from https://lucidar.me/en/unit-converter/rad-per-second-to-revolution-per-minute/
+        $("#calc #m").html("<tr><td>Item</td><td>Unit</td><td>Value</td></tr>");
+        $("#calc #m").append("<tr><td>Cylinder Weight: </td><td>KG</td><td>" + n(Cm) + "</td></tr>");
+        $("#calc #m").append("<tr><td>Cylinder Radius: </td><td>Meters</td><td>" + n(Cr) + "</td></tr>");
+
+        Cr = Math.pow(Cr, 2);
+
+        $("#calc #m").append("<tr><td>Initial Ang Velocity: </td><td>Rad/s</td><td>" + n(Ai) + "</td></tr>");
+        $("#calc #m").append("<tr><td>Final Ang Velocity: </td><td>Rad/s</td><td>" + n(Af) + "</td></tr>");
+        $("#calc #f1").html("T = (0.5 x MR<sup>2</sup>) * (A<sub>F</sub> - A<sub>I</sub> / A<sub>T</sub>)");
+        $("#calc #f2").html("T = " + ("(0.5 x (" + n(Cm) + ")(" + n(Cr) + ")<sup>2</sup>)") + " x ((" + n(Af) + " - " + n(Ai) + ") / " + n(At) + ")");
+
+        var A = (Af - Ai) / At;
+        var I = 0.5 * Cr * Cm;
+
+
+        var result = rnd(I * A);
+        $("#calc #f3").html(result + " = " + n(I) + " x " + n(A));
+
+        var convRes = rnd(
+
+            result * 141.612
+
+        ); //convert N/m to Oz-in      from https://www.advancedconverter.com/unit-conversions/torque-conversion/newton-meter-to-ounce-inch
+
+        $("#calc #f4").html(result + "<sub>N/m</sub> = " + convRes + "<sub>Oz-In</sub>");
+
+        out(convRes, $("#calc .output"));
+    }
+
+
+    function out(v, e) {
+        return e.html(Math.round(v * 1000000) / 1000000);
+    }
+
+    function rnd(v) {
+        return Math.round(v * 1000000) / 1000000
+    }
+
+    function n(v) {
+        var s = v + "";
+        console.log(s.length);
+        if (s.length > 5) {
+            return (Math.round(v * 100000) / 100000) + "...";
+        }
+        return v;
+    }
+</script>

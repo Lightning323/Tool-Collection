@@ -1,0 +1,80 @@
+<link rel="stylesheet" href="tools.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<div style="width: 370px;">
+    <h2 style="font-size: 1.4em;padding: 2px 0;">Oz-In to Max Weight conversion</h2>
+    <p>W = (N / M) /10<br> The calculator calculates with gravity (0.1kg) involved.</p>
+    Oz-In: <input type="number" id="ozIn" placeholder="Oz-In" style="padding: 5px;margin-left: 20px;">
+    <div style="margin-top:10px;"></div>
+    length (in): <input type="number" id="length" placeholder="length (inches)" style="padding: 5px;margin-left: 20px;">
+    <div style="margin-top:10px;"></div>
+    Max lifting weight (lbs):
+    <div id="output" class="output" style="margin-left: 20px;border: 1px solid black;padding: 5px; display:inline-block; min-height: 13px; margin-left:9px;min-width:150px;">--</div>
+    <div style="margin-top:20px;"></div>
+    <button onclick="convert()">CONVERT</button>
+    <div style="margin-top:10px;"></div>
+</div>
+
+<style>
+    h2 {
+        background-color: #eeeeee;
+        text-align: center;
+        width: 104%;
+    }
+</style>
+<script>
+    function convert() {
+        var ozIn = document.getElementById("ozIn");
+        var length = document.getElementById("length");
+        var output = document.getElementById("output");
+
+        var meters = (length.value / 12) / 3.281;
+        var Nm = ozIn.value * .00706
+        console.log("(" + Nm + " / " + meters + " / 10) = result in kg");
+        console.log((Nm / meters / 10) + " kg * 2.205 = " + (Nm / meters / 10) * 2.205 + " lbs");
+
+
+
+        var out = ((Nm / meters / 10) * 2.205) - 0.2204623 /*0.1kg gravity*/ /*lbs*/ ;
+        output.innerHTML = rnd(out);
+
+        if (out < 0) {
+            output.style.color = "red";
+        } else {
+            output.style.color = "black";
+        }
+    }
+
+    function rnd(v) {
+        return Math.round(v * 1000000) / 1000000
+    }
+</script>
+
+<!--694 oz-in
+
+(oz-in * .00706) / meters / 10 = kg (weight) that the servo that can lift
+
+4.899 Nm
+
+
+If you are not familiar with the unit of measurement:
+
+1 oz-in = 0.00706 Nm
+
+if you are not familiar with torque:
+
+1 Nm torque translates to 1N of force at a radial distance from the shaft of the motor of 1 m. As 1N gravitational force corresponds to an approx. 0.1kg weight, 1 Nm torque can lift* 0.1kg weight 1m away from the shaft, or 1 kg weight 0.1m away from the shaft.
+
+*Lift in this case means that if such weight is attached to the rotor, the rotor would be in equilibrium, less weight then this would start to rotate.
+
+share  edit  follow  flag 
+answered 3 hours ago
+
+50k4
+5,02966 silver badges2020 bronze badges
+So, if i had a length of 2M with 1Nm, would that make 0.5N? @50k4 – X Builder 3 hours ago   Delete
+
+exactly, 2m radial distance, 0.5N – 50k4 3 hours ago
+
+-->

@@ -1,0 +1,76 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="../style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Multi Tool</title>
+    <link rel="import" href="../Multi Tool.html">
+    <style>
+        *{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        @keyframes wheel {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        div {
+            animation-iteration-count: infinite;
+            animation-name: wheel;
+            animation-timing-function: linear;
+            padding:0;
+            margin-top: 100px;
+            margin-bottom:75px;
+        }
+        #center{
+            background: blue;
+            width: 80px;
+            height: 8px;
+            border-left: 45px solid transparent;
+            border-right: 45px solid transparent;
+            background-clip: content-box;
+            margin:0;
+            margin-left:70px;
+        }
+
+        input {
+            margin-top: 2em;
+        }
+        h2{
+            background-color: #eee;
+            padding: 3px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <h2>RPM Visualizer</h2>
+    <div>
+<div id="center"></div>
+    </div>
+    <input type="number" id="rpm" value="30" /> RPM
+</body>
+<script>
+    var $input = document.getElementById("rpm");
+    var $div = document.querySelector("div");
+
+    console.log($input, $div);
+
+    $input.addEventListener("change", onchange, false);
+
+    function onchange() {
+        var rpm = $input.value;
+        var duration = 60 / rpm;
+        $div.style.animationDuration = duration + 's';
+    }
+
+    onchange();
+</script>
+
+</html>

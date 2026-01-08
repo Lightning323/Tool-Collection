@@ -1,0 +1,266 @@
+<html>
+
+<head>
+    <script src="http://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            padding-bottom: 20px;
+        }
+
+        td {
+            padding-right: 15px;
+        }
+
+        tr {
+            height: 30px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+        }
+
+        h2 {
+            font-size: 1.5em;
+        }
+
+        .icon {
+            font-size: 40em;
+            position: relative;
+            display: block;
+        }
+
+        #capture {
+            padding: 0px;
+            background: #f5da55;
+            width: 1024px;
+            height: 1024px;
+            text-align: center;
+            vertical-align: middle;
+            display: table-cell;
+            margin: 0px;
+        }
+    </style>
+    <title>Icon Creator HTML</title>
+</head>
+
+<body>
+    <div style="opacity:0;height:0px;width:1000px;z-index:-1;background-color: black;">
+        <div id="capture">
+            <i class="fa icon" style="display: none;top:-5%;left: -2%;" id="fa">&#xf26e;</i>
+            <i class="material-icons icon" id="google" style="left:-1%;top:-3%;display: none;">&#xe84d;</i>
+            <span class="glyphicon icon" id="boot" style="top:2%;left:-2%;">&#xe047;</span>
+        </div>
+    </div>
+    <div class="container" style="background-color: white;">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Icon Creator</h1>
+                <p style="max-width: 600px;">Edit the parameters to customize your icon, then click download. The result
+                    will be a .PNG image. click the <a href="https://convertio.co/png-ico/">Convertio.co</a> link to
+                    convert the image into an .ICO file.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Parameters</h2>
+                <table>
+                    <tr>
+                        <td>Icon Code</td>
+                        <td>&amp#<input type="text" id="code"
+                                onkeyup="this.value = this.value.replace('&','');this.value = this.value.replace('#','');this.value = this.value.replace(';','');"
+                                onkeydown="this.value = this.value.replace('&','');this.value = this.value.replace('#','');this.value = this.value.replace(';','');"
+                                value="xe047" style="user-select: all;" />; </td>
+                    </tr>
+                    <tr>
+                        <td>Icon Type</td>
+                        <td><input type="radio" name="type" value="fa" /> Font Awesome 4<br>
+                            <input type="radio" name="type" value="boot" checked /> Bootstrap<br>
+                            <input type="radio" name="type" value="google" /> Google
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Background Color</td>
+                        <td><input type="color" value="#f5da55" id="bgcolor" /> </td>
+                    </tr>
+                    <tr>
+                        <td>Foreground Color</td>
+                        <td><input type="color" id="fgcolor" /> </td>
+                    </tr>
+                </table>
+                <button onclick="apply();">Apply</button>
+                <br><br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <h2>Preview</h2>
+                <div id="preview" style="
+                border:1px solid black;
+                padding:10px;
+                text-align: center;min-height:130px;"></div>
+            </div>
+            <div class="col-sm-6">
+                <h2>Download / Links</h2>
+                <button onclick="downloadImage();">Download</button><br>
+                <a href="https://convertio.co/png-ico/">Open Convertio.co</a><br>
+                <a href="https://www.w3schools.com/icons/icons_reference.asp" targer="_blank">Open Icon Reference</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <a href="./Icon Codes.html" target="_blank">
+                    <h4>Open Icon Codes Reference</h4>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    let canv;
+    $(window).scrollTop(0);
+    html2canvas(document.querySelector("#capture")).then(canvas => {
+        document.getElementById("preview").appendChild(canvas);
+        canvas.style.width = "100px";
+        canvas.style.height = "100px";
+        canvas.style.boxShadow = "0px 0px 20px #ddd";
+        canv = canvas;
+    });
+
+    function apply() {
+        console.log("APPLYING...");
+        $(window).scrollTop(0);
+        var radios = document.getElementsByTagName('input');
+        var value;
+        for (var i = 0; i < radios.length; i++) {
+            if (radios[i].type === 'radio' && radios[i].checked) {
+                // get value, set checked flag or do whatever you need to
+                value = radios[i].value;
+            }
+        }
+
+
+
+
+        $("#capture").css({
+            "color": $("#fgcolor").val(),
+            "background-color": $("#bgcolor").val()
+        });
+
+        $("#boot").html("&#" + $("#code").val() + ";");
+        $("#google").html("&#" + $("#code").val() + ";");
+        $("#fa").html("&#" + $("#code").val() + ";");
+
+        if (value == "boot") {
+            $("#boot").show();
+            $("#google").hide();
+            $("#fa").hide();
+        } else if (value == "fa") {
+            $("#boot").hide();
+            $("#google").hide();
+            $("#fa").show();
+        } else {
+            $("#boot").hide();
+            $("#google").show();
+            $("#fa").hide();
+        }
+
+        html2canvas(document.querySelector("#capture")).then(canvas => {
+            document.getElementById("preview").innerHTML = "";
+            document.getElementById("preview").appendChild(canvas);
+            canvas.style.width = "100px";
+            canvas.style.height = "100px";
+            // canvas.width = 1024;
+            // canvas.height = 1024;
+            canvas.style.boxShadow = "0px 0px 20px #ddd";
+            canv = canvas;
+        });
+    }
+
+    function downloadImage() {
+        const dataURI = canv.toDataURL();
+        console.log(dataURI);
+        downloadURI(dataURI, "IconImage.png");
+    }
+
+    function downloadURI(uri, name) {
+        var link = document.createElement("a");
+        link.download = name;
+        link.href = uri;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        delete link;
+    }
+
+    // function pngToIco(icoFile, pngData) {
+
+    //     icoFile = "\x00\x00\x01\x00\x01\x00"; // First 6 bytes are constant
+    //     icoFile += pngData[15 + 4]; // PNG width byte
+    //     icoFile += pngData[15 + 8]; // PNG height byte
+    //     // Make sure PNG is less than 256x256
+    //     if (pngData[15 + 1] || pngData[15 + 2] || pngData[15 + 3]) {
+    //         console.log("Width over 255!");
+    //         return;
+    //     }
+    //     if (pngData[15 + 5] || pngData[15 + 6] || pngData[15 + 7]) {
+    //         console.log("Height over 255!");
+    //         return;
+    //     }
+    //     // Add more (probably constant) information
+    //     icoFile += "\x00\x00\x01\x00\x18\x00";
+    //     // Add encoded length
+    //     var lenBytes = pngData.length;
+    //     for (var i = 0; i < 4; i++) {
+    //         icoFile += String.fromCharCode(lenBytes % 256);
+    //         lenBytes >>= 4;
+    //     }
+    //     // We had 0x16 bytes before now
+    //     icoFile += "\x16\x00\x00\x00";
+    //     // Now add the png data
+    //     icoFile += pngData;
+    //     // Now we have a valid ico file!
+    //     return icoFile;
+    // }
+
+    // function pngToIco(images) {
+    //     let icoHead = [ //.ico header
+    //             0, 0, // Reserved. Must always be 0 (2 bytes)
+    //             1, 0, // Specifies image type: 1 for icon (.ICO) image, 2 for cursor (.CUR) image. Other values are invalid. (2 bytes)
+    //             images.length & 255, (images.length >> 8) & 255 // Specifies number of images in the file. (2 bytes)
+    //         ],
+    //         icoBody = [],
+    //         pngBody = [];
+
+    //     for (let i = 0, num, pngHead, pngData, offset = 0; i < images.length; i++) {
+    //         pngData = Array.from(images[i]);
+    //         pngHead = [ //image directory (16 bytes)
+    //             0, // Width 0-255, should be 0 if 256 pixels (1 byte)
+    //             0, // Height 0-255, should be 0 if 256 pixels (1 byte)
+    //             0, // Color count, should be 0 if more than 256 colors (1 byte)
+    //             0, // Reserved, should be 0 (1 byte)
+    //             1, 0, // Color planes when in .ICO format, should be 0 or 1, or the X hotspot when in .CUR format (2 bytes)
+    //             32, 0 // Bits per pixel when in .ICO format, or the Y hotspot when in .CUR format (2 bytes)
+    //         ];
+    //         num = pngData.length;
+    //         for (let i = 0; i < 4; i++)
+    //             pngHead[pngHead.length] = (num >> (8 * i)) & 255; // Size of the bitmap data in bytes (4 bytes)
+
+    //         num = icoHead.length + ((pngHead.length + 4) * images.length) + offset;
+    //         for (let i = 0; i < 4; i++)
+    //             pngHead[pngHead.length] = (num >> (8 * i)) & 255; // Offset in the file (4 bytes)
+
+    //         offset += pngData.length;
+    //         icoBody = icoBody.concat(pngHead); // combine image directory
+    //         pngBody = pngBody.concat(pngData); // combine actual image data
+    //     }
+    //     return icoHead.concat(icoBody, pngBody);
+    // }
+</script>
+
+</html>

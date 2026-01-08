@@ -1,0 +1,49 @@
+h2 {
+    background-color: #eeeeee;
+    text-align: center;
+    width: 104%;
+}
+
+.output {
+    margin-left: 20px;
+    border: 1px solid black;
+    padding: 5px;
+    display: inline-block;
+    min-height: 13px;
+    margin-left: 9px;
+    min-width: 150px;
+    user-select: all;
+}
+
+* {
+    font-family: arial;
+}
+
+button {
+    padding: 5px 10px;
+}
+
+input {
+    padding: 5px;
+    margin-left: 20px;
+    margin-top: 5px;
+    display: inline;
+    user-select: all!important;
+}
+
+.small {
+    font-size: 0.87em;
+}
+
+.bx {
+    display: inline-block;
+    margin: 0 0 2px 2px;
+    vertical-align: top;
+    border: 1px solid #eee;
+    padding: 5px;
+    max-width: 47%;
+}
+
+body {
+    user-select: none;
+}
