@@ -423,6 +423,7 @@ class PaletteEditorDialog(tk.Toplevel):
                 return
 
             merged = []
+            merged_count = 0
             for c in self.palette:
                 r1, g1, b1 = c
                 too_close = False
@@ -431,13 +432,14 @@ class PaletteEditorDialog(tk.Toplevel):
                     dr, dg, db = (r1 - r2) / 255, (g1 - g2) / 255, (b1 - b2) / 255
                     if math.sqrt(dr * dr + dg * dg + db * db) < threshold:
                         too_close = True
+                        merged_count += 1
                         break
                 if not too_close:
                     merged.append(c)
 
             self.palette[:] = merged
             self.status_label.config(
-                text=f"Close colors merged ({len(self.palette)} colors)"
+                text=f"Merged {merged_count} colors"
             )
             self.update_main()
         except Exception as e:
@@ -451,15 +453,17 @@ class PaletteEditorDialog(tk.Toplevel):
                 return
 
             added_colors = set(self.palette)
+            appended_count = 0
             for f in files:
                 new_palette = read_gpl(f)
                 for c in new_palette:
                     if c not in added_colors:
                         self.palette.append(c)
                         added_colors.add(c)
+                        appended_count += 1
 
             self.status_label.config(
-                text=f"Appended {len(added_colors)} colors. Total: {len(self.palette)}"
+                text=f"Added {appended_count} colors"
             )
             self.update_main()
         except Exception as e:
