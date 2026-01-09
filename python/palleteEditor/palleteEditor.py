@@ -78,6 +78,7 @@ class GPLPaletteManager:
         padding = 1
         width = self.canvas.winfo_width()
         cols = max(1, width // (size + padding * 2))
+        self.color_label.config(text=f"Colors in palette: {len(self.palette)}")
 
         for i, (r, g, b) in enumerate(self.palette):
             row = i // cols
@@ -363,11 +364,11 @@ class PaletteEditorDialog(tk.Toplevel):
         # --- Append GPL Frame ---
         append_frame = ttk.LabelFrame(self, text="Additional Options", padding=(10, 10))
         append_frame.pack(fill="x", padx=10, pady=5)
-        ttk.Button(append_frame, text="Append GPL File", command=self.append_gpl).grid(
+        ttk.Button(append_frame, text="Append Pallete (GPL File)", command=self.append_gpl).grid(
             row=0, column=0, padx=5, pady=5, sticky="w"
         )
         ttk.Button(append_frame, text="Sort Colors", command=self.sort_colors).grid(
-            row=0, column=1, padx=5, pady=5, sticky="w"
+            row=1, column=0, padx=5, pady=5, sticky="w"
         )
 
         # --- Info Label ---
